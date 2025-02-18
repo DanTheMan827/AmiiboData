@@ -35,9 +35,9 @@ jobs:
           JSON_URL="$BASE_URL/sha1sum.json"
 
           echo "Downloading JSON from $JSON_URL..."
-          json=$(curl -s "$JSON_URL")
+          wget "$JSON_URL"
 
-          echo "$json" | jq -r 'to_entries[] | "\(.key) \(.value)"' | while read -r file expected_hash; do
+          cat "sha1sum.json" | jq -r 'to_entries[] | "\(.key) \(.value)"' | while read -r file expected_hash; do
             local_path="$(pwd)/$file"
             real_local_path="$(realpath -m "$local_path")"
             real_pwd="$(realpath "$(pwd)")/"
