@@ -50,7 +50,7 @@ jobs:
             fi
 
             # Skip protected paths/directories
-            if [[ "$relative_path" =~ ^(\.github|\.devcontainer|\.vscode)(/|$) ]] || [[ "$file" == "README.md" ]]; then
+            if [[ "$relative_path" =~ ^(\.github|\.devcontainer|\.vscode)|_data|(/|$) ]] || [[ "$file" == "README.md" ]] || [[ "$file" == ".gitignore" ]] || [[ "$file" == "index.html" ]]; then
               echo "Skipping protected file/directory: $file"
               continue
             fi
