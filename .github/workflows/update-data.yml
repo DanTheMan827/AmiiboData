@@ -1,0 +1,87 @@
+name: Update Data Files
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-files:
+    permissions:
+      contents: write
+
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Check for PAT secret
+        id: get_authentication
+        run: |
+          if [[ -n "${{ secrets.PAT }}" ]]; then
+            echo "token=${{ secrets.PAT }}" >> $GITHUB_OUTPUT
+          else
+            echo "token=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Clone repository
+        run: |
+          branch="${GITHUB_REF#refs/heads/}"
+          git clone --branch "$branch" https://x-access-token:${{ steps.get_authentication.outputs.token }}@github.com/${{ github.repository }}.git .
+
+      - name: Download and update files
+        run: |
+          BASE_URL="https://raw.githubusercontent.com/N3evin/AmiiboAPI/refs/heads/master"
+          JSON_URL="$BASE_URL/sha1sum.json"
+
+          echo "Downloading JSON from $JSON_URL..."
+          json=$(curl -s "$JSON_URL")
+
+          echo "$json" | jq -r 'to_entries[] | "\(.key) \(.value)"' | while read -r file expected_hash; do
+            # Skip paths with ".."
+            if [[ "$file" == *"../"* ]]; then
+              echo "Skipping unsafe path: $file"
+              continue
+            fi
+
+            # Skip protected paths/directories
+            if [[ "$file" =~ ^(\.github|\.devcontainer|\.vscode)(/|$) ]] || [[ "$file" == "README.md" ]]; then
+              echo "Skipping protected file/directory: $file"
+              continue
+            fi
+
+            local_path="$(pwd)/$file"
+            # Ensure the file is within the repository directory using realpath -m
+            if [[ "$(realpath -m "$local_path")" != "$(realpath "$(pwd)")/"* ]]; then
+              echo "Skipping file outside workspace: $file"
+              continue
+            fi
+
+            download=true
+            if [ -f "$local_path" ]; then
+              current_hash=$(sha1sum "$local_path" | awk '{print $1}')
+              if [ "$current_hash" == "$expected_hash" ]; then
+                echo "File up-to-date: $file"
+                download=false
+              fi
+            fi
+
+            if [ "$download" = true ]; then
+              echo "Updating file: $file"
+              mkdir -p "$(dirname "$local_path")"
+              curl -s "$BASE_URL/$file" -o "$local_path"
+              # Verify download hash
+              downloaded_hash=$(sha1sum "$local_path" | awk '{print $1}')
+              if [ "$downloaded_hash" != "$expected_hash" ]; then
+                echo "Hash mismatch for $file" >&2
+                exit 1
+              fi
+            fi
+          done
+
+      - name: Configure git with bot information
+        run: |
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit and push changes
+        run: |
+          git add -A .
+          git commit -m "Update data files" || exit 0
+          git push
