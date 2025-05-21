@@ -35,7 +35,7 @@ jobs:
           JSON_URL="$BASE_URL/sha1sum.json?$(date +%s)"
 
           echo "Downloading JSON from $JSON_URL..."
-          curl --clobber -s "$JSON_URL" -o "sha1sum.json"
+          curl "$JSON_URL" > "sha1sum.json"
 
           cat "sha1sum.json" | jq -r 'to_entries[] | "\(.key) \(.value)"' | while read -r file expected_hash; do
             local_path="$(pwd)/$file"
@@ -67,7 +67,7 @@ jobs:
             if [ "$download" = true ]; then
               echo "Updating file: $file"
               mkdir -p "$(dirname "$local_path")"
-              curl --clobber -s "$BASE_URL/$file?$(date +%s)" -o "$local_path"
+              curl "$BASE_URL/$file?$(date +%s)" > "$local_path"
               # Verify download hash
               downloaded_hash=$(sha1sum "$local_path" | awk '{print $1}')
               if [ "$downloaded_hash" != "$expected_hash" ]; then
