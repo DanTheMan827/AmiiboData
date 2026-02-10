@@ -31,7 +31,7 @@ jobs:
             set -x
           fi
 
-          BASE_URL="https://raw.githubusercontent.com/N3evin/AmiiboAPI/refs/heads/master"
+          BASE_URL="https://raw.githubusercontent.com/8bitDream/AmiiboAPI/refs/heads/master"
           JSON_URL="$BASE_URL/sha1sum.json?$(date +%s)"
 
           echo "Downloading JSON from $JSON_URL..."
