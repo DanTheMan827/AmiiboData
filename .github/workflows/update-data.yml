@@ -23,7 +23,6 @@ jobs:
       - name: Clone repository
         run: |
           branch="${GITHUB_REF#refs/heads/}"
-          branch="master"
           git clone --branch "$branch" https://x-access-token:${{ steps.get_authentication.outputs.token }}@github.com/${{ github.repository }}.git .
 
       - name: Download and update files
