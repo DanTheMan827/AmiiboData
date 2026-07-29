@@ -5,13 +5,14 @@ const basePath =
     ? process.env.PAGES_URL.replace(/\/$/, "")
     : "";
 
-const output = process.env.NEXT_OUTPUT ?? "export";
+const output = process.env.NEXT_OUTPUT ?? "standalone";
+
+console.log(`Next.js output mode: ${output}`);
 
 const nextConfig: NextConfig = {
   cleanDistDir: true,
   reactCompiler: true,
   output: output as "export" | "standalone",
-  distDir: 'dist',
   images: {
     unoptimized: true
   },
