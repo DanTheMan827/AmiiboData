@@ -6,10 +6,10 @@ interface Props {
 }
 
 const PLATFORMS = [
-  { key: "gamesSwitch2" as const, label: "Nintendo Switch 2", icon: "🎮" },
-  { key: "gamesSwitch" as const, label: "Nintendo Switch", icon: "🎮" },
-  { key: "gamesWiiU" as const, label: "Wii U", icon: "📺" },
-  { key: "games3DS" as const, label: "Nintendo 3DS", icon: "📱" },
+  { key: "gamesSwitch2" as const, label: "Nintendo Switch 2" },
+  { key: "gamesSwitch" as const, label: "Nintendo Switch" },
+  { key: "gamesWiiU" as const, label: "Wii U" },
+  { key: "games3DS" as const, label: "Nintendo 3DS" },
 ];
 
 function GameRow({ game }: { game: GameEntry }) {
@@ -44,7 +44,6 @@ export default function GamesList({ games }: Props) {
         return (
           <section key={key} className={styles.section}>
             <h2 className={styles.sectionTitle}>
-              <span>{icon}</span>
               {label}
               <span className={styles.count}>{list.length}</span>
             </h2>
