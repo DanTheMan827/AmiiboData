@@ -38,7 +38,7 @@ export default function GamesList({ games }: Props) {
 
   return (
     <div className={styles.wrap}>
-      {PLATFORMS.map(({ key, label, icon }) => {
+      {PLATFORMS.map(({ key, label }) => {
         const list = games[key];
         if (list.length === 0) return null;
         return (
