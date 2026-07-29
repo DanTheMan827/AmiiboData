@@ -82,7 +82,7 @@ jobs:
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
-        run: ${{ steps.detect-package-manager.outputs.runner }} next build
+        run: "PAGES_URL=${{ env.PAGES_URL }}" ${{ steps.detect-package-manager.outputs.runner }} next build
         env:
           NEXT_OUTPUT: export
       - name: Upload artifact

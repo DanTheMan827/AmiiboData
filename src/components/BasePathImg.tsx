@@ -1,6 +1,6 @@
 'use client'
 
-export const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+export const basePath = process.env.basePath ?? "";
 
 export const withBasePath = (path: string) =>
   `${basePath}${path.startsWith("/") ? path : `/${path}`}`;
@@ -11,11 +11,11 @@ export const BasePathImg = forwardRef<
   HTMLImageElement,
   React.ComponentPropsWithoutRef<"img">
 >(({ src, ...props }, ref) => {
-  const [basePath, setBasePath] = useState(process.env.NEXT_PUBLIC_BASE_PATH ?? "");
+  const [basePath, setBasePath] = useState(process.env.basePath ?? "");
 
   useEffect(() => {
-    console.log(process.env);
-    setBasePath(process.env.NEXT_PUBLIC_BASE_PATH ?? "");
+    console.log(process.env.basePath);
+    setBasePath(process.env.basePath ?? "");
   }, []);
 
   const resolvedSrc =
