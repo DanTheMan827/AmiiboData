@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Amiibo } from "@/lib/amiibo";
 import styles from "./AmiiboCard.module.css";
-import { withBasePath } from "@/lib/withBasePath";
+import { BasePathImg } from "@/components/BasePathImg";
 
 interface Props {
   amiibo: Amiibo;
@@ -24,8 +24,8 @@ export default function AmiiboCard({ amiibo }: Props) {
   return (
     <Link href={`/amiibo/${encodeURIComponent(amiibo.id)}`} className={styles.card}>
       <div className={styles.imageWrap}>
-        <img
-          src={withBasePath(`/images/${amiibo.imageFilename}`)}
+        <BasePathImg
+          src={`/images/${amiibo.imageFilename}`}
           alt={amiibo.name}
           loading="lazy"
           className={styles.image}

@@ -8,7 +8,7 @@ import {
 import Header from "@/components/Header/Header";
 import GamesList from "@/components/GamesList/GamesList";
 import styles from "./page.module.css";
-import { withBasePath } from "@/lib/withBasePath";
+import { BasePathImg } from "@/components/BasePathImg";
 
 export async function generateStaticParams() {
   return getAllAmiibos().map((a) => ({ id: encodeURIComponent(a.id) }));
@@ -61,8 +61,8 @@ export default async function AmiiboDetailPage({
         <div className={styles.detailWrap}>
           <div className={styles.sidebar}>
             <div className={styles.imageCard}>
-              <img
-                src={withBasePath(`/images/${amiibo.imageFilename}`)}
+              <BasePathImg
+                src={`/images/${amiibo.imageFilename}`}
                 alt={amiibo.name}
                 className={styles.image}
                 width={300}

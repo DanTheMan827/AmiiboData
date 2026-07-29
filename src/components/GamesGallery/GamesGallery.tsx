@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import styles from "./GamesGallery.module.css";
-import { withBasePath } from "@/lib/withBasePath";
+import { BasePathImg } from "@/components/BasePathImg";
 
 export interface GameSummary {
   name: string;
@@ -144,8 +144,8 @@ export default function GamesGallery({ games }: Props) {
                         className={styles.previewThumb}
                         title={id}
                       >
-                        <img
-                          src={withBasePath(`/images/icon_${high}-${low}.png`)}
+                        <BasePathImg
+                          src={`/images/icon_${high}-${low}.png`}
                           alt=""
                           loading="lazy"
                           width={36}
