@@ -61,6 +61,14 @@ jobs:
           #
           # You may remove this line if you want to manage the configuration yourself.
           static_site_generator: next
+      - name: Set pages url
+        run: |
+          HOMEPAGE_URL="$(curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/$GITHUB_REPOSITORY/pages" | jq -r '.html_url' | sed 's/\/$//')"
+          if [ "$HOMEPAGE_URL" == "null" ]; then
+            echo "PAGES_URL=https://$REPO_USERNAME.github.io/$REPO_NAME" >> $GITHUB_ENV
+          else
+            echo "PAGES_URL=$HOMEPAGE_URL" >> $GITHUB_ENV
+          fi
       - name: Restore cache
         uses: actions/cache@v4
         with:
