@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import styles from "./GamesGallery.module.css";
+import Image from "next/image";
 
 export interface GameSummary {
   name: string;
@@ -143,7 +144,7 @@ export default function GamesGallery({ games }: Props) {
                         className={styles.previewThumb}
                         title={id}
                       >
-                        <img
+                        <Image
                           src={`/images/icon_${high}-${low}.png`}
                           alt=""
                           loading="lazy"

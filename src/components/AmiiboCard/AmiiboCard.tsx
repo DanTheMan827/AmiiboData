@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Amiibo } from "@/lib/amiibo";
 import styles from "./AmiiboCard.module.css";
+import Image from "next/image";
 
 interface Props {
   amiibo: Amiibo;
@@ -23,7 +24,7 @@ export default function AmiiboCard({ amiibo }: Props) {
   return (
     <Link href={`/amiibo/${encodeURIComponent(amiibo.id)}`} className={styles.card}>
       <div className={styles.imageWrap}>
-        <img
+        <Image
           src={`/images/${amiibo.imageFilename}`}
           alt={amiibo.name}
           loading="lazy"
