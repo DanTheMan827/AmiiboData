@@ -55,7 +55,7 @@ jobs:
           cache: ${{ steps.detect-package-manager.outputs.manager }}
       - name: Set pages url
         run: |
-          echo "PAGES_URL=/${{ github.repository }}" >> $GITHUB_ENV
+          echo "PAGES_URL=/${{ github.event.repository.name }}" >> $GITHUB_ENV
       - name: Restore cache
         uses: actions/cache@v4
         with:
