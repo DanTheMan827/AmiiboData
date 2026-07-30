@@ -26,7 +26,7 @@ export default function AmiiboGallery({ amiibos, allSeries }: Props) {
     series: "",
     figureType: "",
     releaseRegion: "",
-    sortBy: "name-asc",
+    sortBy: "release-desc",
   });
   const [page, setPage] = useState(1);
 
