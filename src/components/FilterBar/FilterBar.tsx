@@ -38,7 +38,7 @@ export default function FilterBar({
       series: "",
       figureType: "",
       releaseRegion: "",
-      sortBy: "name-asc",
+      sortBy: "release-desc",
     });
   };
 
@@ -47,7 +47,7 @@ export default function FilterBar({
     filters.series ||
     filters.figureType ||
     filters.releaseRegion ||
-    filters.sortBy !== "name-asc";
+    filters.sortBy !== "release-desc";
 
   return (
     <div className={styles.filterBar}>
